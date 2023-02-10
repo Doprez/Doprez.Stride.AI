@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Doprez.Stride.AI.FSMs;
-public abstract class FSMState : StartupScript
+public abstract class FSMState
 {
 	public string Name { get; set; } = Guid.NewGuid().ToString();
 	public FSM FiniteStateMachine { get; set; }

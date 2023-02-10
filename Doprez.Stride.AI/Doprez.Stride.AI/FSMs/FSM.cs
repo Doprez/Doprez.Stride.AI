@@ -1,4 +1,5 @@
-﻿using Stride.Core;
+﻿using SharpDX.Direct3D11;
+using Stride.Core;
 using Stride.Engine;
 using System;
 using System.Collections.Generic;
@@ -17,26 +18,31 @@ public abstract class FSM : AsyncScript
 	/// All states that can be accessed by the FSM
 	/// </summary>
 	[DataMemberIgnore]
-	public Dictionary<int, FSMState> States = new Dictionary<int, FSMState>();
+	public Dictionary<int, FSMState> States = new();
 
-	protected FSMState _currentState;
+	protected FSMState? currentState;
 
 	public void Add(int id, FSMState state)
 	{
 		States.Add(id, state);
 	}
 
+	public abstract void Initialize();
+	public abstract Task AsyncUpdate();
+
 	public override async Task Execute()
 	{
+		Initialize();
 		while (Game.IsRunning)
 		{
-			await _currentState.UpdateState();
+			await AsyncUpdate();
+			await currentState.UpdateState();
 		}
 	}
 
 	public FSMState GetActiveState()
 	{
-		return _currentState;
+		return currentState;
 	}
 
 	public FSMState GetState(int id)
@@ -46,32 +52,20 @@ public abstract class FSM : AsyncScript
 
 	public void SetCurrentState(FSMState state)
 	{
-		if (_currentState != null)
-		{
-			_currentState.ExitState();
-		}
+		currentState?.ExitState();
 
-		_currentState = state;
+		currentState = state;
 
-		if (_currentState != null)
-		{
-			_currentState.EnterState();
-		}
+		currentState?.EnterState();
 	}
 
 	public void SetCurrentState(int stateIndex)
 	{
-		if (_currentState != null)
-		{
-			_currentState.ExitState();
-		}
+		currentState?.ExitState();
 
-		_currentState = GetState(stateIndex);
+		currentState = GetState(stateIndex);
 
-		if (_currentState != null)
-		{
-			_currentState.EnterState();
-		}
+		currentState?.EnterState();
 	}
 
 }
