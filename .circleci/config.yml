@@ -14,13 +14,13 @@ jobs:
         - checkout
         - run:
             name: Restore
-            command: dotnet restore .\\Doprez.Stride\\Doprez.Stride.AI.sln
+            command: dotnet restore .\\Doprez.Stride.AI\\Doprez.Stride.AI.sln
         - run: 
             name: Build
-            command: dotnet build .\\Doprez.Stride\\Doprez.Stride.AI.sln
+            command: dotnet build .\\Doprez.Stride.AI\\Doprez.Stride.AI.sln
         - run: 
             name: Package
-            command: dotnet pack .\\Doprez.Stride\\Doprez.Stride.AI.sln -o ./App
+            command: dotnet pack .\\Doprez.Stride.AI\\Doprez.Stride.AI.sln -o ./App
         - run:
             name: Publish
             command: cd App && ls && dotnet nuget push Doprez.Stride.AI.*.nupkg --api-key $NUGET_KEY --source https://api.nuget.org/v3/index.json
