@@ -23,7 +23,7 @@ jobs:
             command: dotnet pack .\\Doprez.Stride.AI\\Doprez.Stride.AI.sln -o ./App
         - run:
             name: Publish
-            command: cd App && ls && dotnet nuget push Doprez.Stride.AI.*.nupkg --api-key $NUGET_KEY --source https://api.nuget.org/v3/index.json
+            command: cd App && ls && dotnet nuget push Doprez.Stride.AI.*.nupkg -k $NUGET_KEY -s https://api.nuget.org/v3/index.json
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
