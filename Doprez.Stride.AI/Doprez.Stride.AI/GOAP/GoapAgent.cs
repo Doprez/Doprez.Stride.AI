@@ -1,13 +1,9 @@
-﻿using BulletSharp;
-using Stride.Core;
+﻿using Stride.Core;
 using Stride.Engine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Doprez.Stride.AI.GOAP;
+
+[Obsolete("I need to redo most of this as it doesnt work")]
 public abstract class GoapAgent : AsyncScript
 {
 	[DataMember(0)]
