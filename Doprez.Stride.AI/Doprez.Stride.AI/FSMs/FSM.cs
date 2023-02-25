@@ -1,19 +1,10 @@
-﻿using SharpDX.Direct3D11;
-using Stride.Core;
+﻿using Stride.Core;
 using Stride.Engine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Doprez.Stride.AI.FSMs;
-
-/// <summary>
-/// Useless for the moment
-/// </summary>
-public abstract class FSM : AsyncScript
+public abstract class FSM : SyncScript
 {
+
 	/// <summary>
 	/// All states that can be accessed by the FSM
 	/// </summary>
@@ -22,23 +13,18 @@ public abstract class FSM : AsyncScript
 
 	protected FSMState? currentState;
 
+	public override void Update()
+	{
+		UpdateFSM();
+		currentState?.UpdateState();
+	}
+
 	public void Add(int id, FSMState state)
 	{
 		States.Add(id, state);
 	}
 
-	public abstract void Initialize();
-	public abstract Task AsyncUpdate();
-
-	public override async Task Execute()
-	{
-		Initialize();
-		while (Game.IsRunning)
-		{
-			await AsyncUpdate();
-			await currentState.UpdateState();
-		}
-	}
+	public abstract void UpdateFSM();
 
 	public FSMState GetActiveState()
 	{
