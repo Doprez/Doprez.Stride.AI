@@ -7,7 +7,7 @@ TBD
 # Examples
 ## FSM Example
 
-We can start by inheriting from the FSM and implementing the base methods
+### We can start by inheriting from the FSM and implementing the base methods
 ```
 using Doprez.Stride.AI.FSMs;
 
@@ -20,7 +20,7 @@ public class BasicEnemyFSM : FSM
 }
 ```
 
-Create the State and needed methods
+### Create the State and needed methods
 ```
 public class IdleState : FSMState
 {
@@ -51,11 +51,11 @@ public class IdleState : FSMState
 }
 ```
 
-A more complete example
+## A more complete example
 
 you can add the  Doprez.Stride nuget package if some of the references are missing
 
-the FSM to initialize the state
+### the FSM to initialize the state and allow per frame updates
 ```
 using System;
 using Doprez.Stride.AI.FSMs;
@@ -103,7 +103,7 @@ public class BasicEnemyFSM : FSM
 }
 ```
 
-The state to change from Idle to another state
+### An example Idle state with comments on how to change to another state
 ```
 using System.Collections.Specialized;
 using System.Threading.Tasks;
