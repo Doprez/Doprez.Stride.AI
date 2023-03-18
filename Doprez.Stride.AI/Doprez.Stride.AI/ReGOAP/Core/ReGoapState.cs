@@ -1,9 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
+using Stride.Core.Serialization;
+using Doprez.Stride.AI.ReGOAP.StrideSerializers;
+using Stride.Core;
 
 namespace ReGoap.Core
 {
+    [DataContract("ReGoapState")]
+    [DataSerializer(typeof(ReGoapStateSerializer<string, object>))]
     public class ReGoapState<T, W>
     {
         // can change to object
@@ -64,6 +67,7 @@ namespace ReGoap.Core
         {
             get { return values.Count; }
         }
+
         public bool HasAny(ReGoapState<T, W> other)
         {
             lock (values) lock (other.values)
