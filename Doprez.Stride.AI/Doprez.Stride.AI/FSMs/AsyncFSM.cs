@@ -34,7 +34,7 @@ public abstract class AsyncFSM : AsyncScript
 		}
 	}
 
-	public AsyncFSMState GetActiveState()
+	public AsyncFSMState? GetActiveState()
 	{
 		return currentState;
 	}
