@@ -16,7 +16,7 @@ public abstract class GoapAgent : SyncScript
 	[DataMember(12)]
 	public Dictionary<string, bool> CurrentState { get; set; } = new Dictionary<string, bool>();
 
-	protected Agent? _agent;
+	protected Agent _agent;
 
 	public override void Start()
 	{
@@ -37,7 +37,7 @@ public abstract class GoapAgent : SyncScript
 	private Dictionary<string, object> GetState()
 	{
 		var state = new Dictionary<string, object>();
-		foreach ( var agentState in CurrentState ) 
+		foreach (var agentState in CurrentState)
 		{
 			state.Add(agentState.Key, agentState.Value);
 		}
@@ -47,7 +47,7 @@ public abstract class GoapAgent : SyncScript
 	private List<BaseGoal> GetGoals()
 	{
 		var goals = new List<BaseGoal>();
-		foreach(var goal in GoapGoals )
+		foreach (var goal in GoapGoals)
 		{
 			goals.Add(goal.GetGoal());
 		}
@@ -57,7 +57,7 @@ public abstract class GoapAgent : SyncScript
 	private List<Action> GetActions()
 	{
 		var actions = new List<Action>();
-		foreach (var action in GoapActions )
+		foreach (var action in GoapActions)
 		{
 			actions.Add(action.GetAction());
 		}

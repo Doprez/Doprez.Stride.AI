@@ -14,7 +14,7 @@ public abstract class GoapGoal : StartupScript
 	[DataMember(10)]
 	public virtual Dictionary<string, bool> DesiredGoals { get; set; } = new Dictionary<string, bool>();
 
-	private Goal? _goal;
+	private Goal _goal;
 
 	public override void Start()
 	{
@@ -36,8 +36,8 @@ public abstract class GoapGoal : StartupScript
 
 	private Dictionary<string, object> GetDesires()
 	{
-		var desires = new Dictionary<string, object>();	
-		foreach(var goal in DesiredGoals)
+		var desires = new Dictionary<string, object>();
+		foreach (var goal in DesiredGoals)
 		{
 			desires.Add(goal.Key, goal.Value);
 		}
