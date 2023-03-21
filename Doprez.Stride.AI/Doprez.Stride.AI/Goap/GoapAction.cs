@@ -17,21 +17,22 @@ public abstract class GoapAction : StartupScript
 	[DataMember(11)]
 	public virtual Dictionary<string, bool> Postconditions { get; set; } = new Dictionary<string, bool>();
 
-	protected Action? _action;
+	protected MountainGoap.Action _action;
 
 	public override void Start()
 	{
+		InitializeGoapAction();
+
 		//This should be the last thing in the start method
 		InitializeAction();
 	}
 
-	public Action GetAction() { return _action; }
+	public virtual void InitializeGoapAction()
+	{
 
-	/// <summary>
-	/// Action that the executor runs while active
-	/// </summary>
-	/// <returns></returns>
-	public abstract ExecutionStatus ActionToRun();
+	}
+
+	public Action GetAction() { return _action; }
 
 	/// <summary>
 	/// the executor entry for the GOAP action
@@ -39,15 +40,12 @@ public abstract class GoapAction : StartupScript
 	/// <param name="agent"></param>
 	/// <param name="action"></param>
 	/// <returns></returns>
-	public ExecutionStatus ActionToRun(Agent agent, Action action)
-	{
-		return ActionToRun();
-	}
+	public abstract ExecutionStatus ActionToRun(Agent agent, Action action);
 
 	private Dictionary<string, object> GetPreConditions()
 	{
 		var preConditions = new Dictionary<string, object>();
-		foreach(var condition in Preconditions)
+		foreach (var condition in Preconditions)
 		{
 			preConditions.Add(condition.Key, condition.Value);
 		}
