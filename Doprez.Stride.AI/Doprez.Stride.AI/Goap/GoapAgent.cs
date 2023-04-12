@@ -1,67 +1,99 @@
-﻿using MountainGoap;
+﻿using Doprez.Stride.AI;
 using Stride.Core;
 using Stride.Engine;
-using Action = MountainGoap.Action;
 
-namespace StrideMountainGoap.Code.Goap;
-public abstract class GoapAgent : SyncScript
+namespace Doprez.Stride.AI.Goap;
+
+[DataContract(nameof(GoapAgent))]
+[ComponentCategory("GOAP")]
+[Display("GoapAgent")]
+public class GoapAgent : StartupScript
 {
-	[DataMember(0)]
-	public string AgentName { get; set; } = "";
+	public Dictionary<string, bool> AgentState { get; set; } = new();
+	public List<GoapAction> AvailableActions { get; set; } = new();
+	public GoapGoal CurrentGoal { get; set; }
 
-	[DataMember(10)]
-	public List<GoapAction> GoapActions { get; set; } = new List<GoapAction>();
-	[DataMember(11)]
-	public List<GoapGoal> GoapGoals { get; set; } = new List<GoapGoal>();
-	[DataMember(12)]
-	public Dictionary<string, bool> CurrentState { get; set; } = new Dictionary<string, bool>();
-
-	protected Agent _agent;
+	private Queue<GoapAction> _actions = new();
+	private readonly GoapPlanner _planner = new();
+	private GoapAction _currentAction;
 
 	public override void Start()
 	{
-		InitializeAgent();
+		base.Start();
+
+		MakeNewPlan();
 	}
 
-	private void InitializeAgent()
+	public async Task RunPlannedActions()
 	{
-		_agent = new
-		(
-			name: AgentName,
-			state: GetState(),
-			goals: GetGoals(),
-			actions: GetActions()
-		);
-	}
-
-	private Dictionary<string, object> GetState()
-	{
-		var state = new Dictionary<string, object>();
-		foreach (var agentState in CurrentState)
+		if (_currentAction != null)
 		{
-			state.Add(agentState.Key, agentState.Value);
+			var actionState = await _currentAction.Step();
+			switch (actionState)
+			{
+				case ActionState.Success:
+					UpdateStateWithCurrentAction();
+					MoveToNextAction();
+					break;
+				case ActionState.Failure:
+					MakeNewPlan();
+					break;
+				case ActionState.Impossible:
+					MakeNewPlan();
+					break;
+				case ActionState.Finished:
+					MakeNewPlan();
+					break;
+				case ActionState.Running:
+					break;
+				default:
+					break;
+			}
 		}
-		return state;
 	}
 
-	private List<BaseGoal> GetGoals()
+	private void MoveToNextAction()
 	{
-		var goals = new List<BaseGoal>();
-		foreach (var goal in GoapGoals)
+		if (_actions.Count > 0)
 		{
-			goals.Add(goal.GetGoal());
+			_actions.Dequeue();
+			_currentAction = _actions.TryPeek(out var newAction) ? newAction : null;
 		}
-		return goals;
 	}
 
-	private List<Action> GetActions()
+	private void UpdateStateWithCurrentAction()
 	{
-		var actions = new List<Action>();
-		foreach (var action in GoapActions)
+		foreach (var effect in _currentAction.Postconditions)
 		{
-			actions.Add(action.GetAction());
+			if (AgentState.TryGetValue(effect.Key, out var state))
+			{
+				AgentState[effect.Key] = state;
+			}
+			else
+			{
+				AgentState.TryAdd(effect.Key, effect.Value);
+			}
 		}
-		return actions;
+	}
+
+	public void MakeNewPlan()
+	{
+		_actions.Clear();
+		_actions = _planner.Plan(this);
+		if (_actions.Count > 0)
+		{
+			_currentAction = _actions.Peek();
+		}
+	}
+
+	public string GetPlanAsString()
+	{
+		string plan = string.Empty;
+		foreach (var action in _actions)
+		{
+			plan += $"{action.ActionName} -> ";
+		}
+		return plan;
 	}
 
 }
