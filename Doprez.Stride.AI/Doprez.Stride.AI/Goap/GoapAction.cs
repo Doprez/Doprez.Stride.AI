@@ -1,77 +1,37 @@
-﻿using MountainGoap;
-using Stride.Engine;
+﻿using Stride.Engine;
 using Stride.Core;
-using Action = MountainGoap.Action;
 
-namespace StrideMountainGoap.Code.Goap;
+namespace Doprez.Stride.AI.Goap;
 
+[ComponentCategory("GOAP")]
 public abstract class GoapAction : StartupScript
 {
 	[DataMember(0)]
-	public virtual string NameOfAction { get; set; } = "";
+	public string ActionName { get; set; } = string.Empty;
 	[DataMember(1)]
-	public int Cost { get; set; } = 1;
+	public float Cost { get; set; } = 1f;
 
 	[DataMember(10)]
-	public virtual Dictionary<string, bool> Preconditions { get; set; } = new Dictionary<string, bool>();
+	public Dictionary<string, bool> Preconditions { get; set; } = new();
 	[DataMember(11)]
-	public virtual Dictionary<string, bool> Postconditions { get; set; } = new Dictionary<string, bool>();
+	public Dictionary<string, bool> Postconditions { get; set; } = new();
 
-	protected MountainGoap.Action _action;
-
-	public override void Start()
+	public virtual bool CheckProceduralPrecondition(Dictionary<string, bool> prerequisites)
 	{
-		InitializeGoapAction();
-
-		//This should be the last thing in the start method
-		InitializeAction();
-	}
-
-	public virtual void InitializeGoapAction()
-	{
-
-	}
-
-	public Action GetAction() { return _action; }
-
-	/// <summary>
-	/// the executor entry for the GOAP action
-	/// </summary>
-	/// <param name="agent"></param>
-	/// <param name="action"></param>
-	/// <returns></returns>
-	public abstract ExecutionStatus ActionToRun(Agent agent, Action action);
-
-	private Dictionary<string, object> GetPreConditions()
-	{
-		var preConditions = new Dictionary<string, object>();
 		foreach (var condition in Preconditions)
 		{
-			preConditions.Add(condition.Key, condition.Value);
+			if (!prerequisites.TryGetValue(condition.Key, out var value))
+			{
+				return false;
+			}
+			if (condition.Value != value)
+			{
+				return false;
+			}
 		}
-		return preConditions;
+		return true;
 	}
 
-	private Dictionary<string, object> GetPostConditions()
-	{
-		var postConditions = new Dictionary<string, object>();
-		foreach (var condition in Postconditions)
-		{
-			postConditions.Add(condition.Key, condition.Value);
-		}
-		return postConditions;
-	}
-
-	protected virtual void InitializeAction()
-	{
-		_action = new
-		(
-			name: NameOfAction,
-			preconditions: GetPreConditions(),
-			postconditions: GetPostConditions(),
-			executor: ActionToRun,
-			cost: Cost
-		);
-	}
+	public abstract Task<ActionState> Step();
 
 }
