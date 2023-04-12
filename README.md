@@ -2,7 +2,7 @@
 AI libraries to be used within [Stride3d](https://www.stride3d.net/) games 
 
 # Build Status
-TBD
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/Doprez/Doprez.Stride.AI/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/Doprez/Doprez.Stride.AI/tree/master)
 
 # Examples
 ## FSM Example
