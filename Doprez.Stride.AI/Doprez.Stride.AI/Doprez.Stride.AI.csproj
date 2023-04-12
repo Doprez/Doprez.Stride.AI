@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -10,7 +10,7 @@
     <NeutralLanguage>en-CA</NeutralLanguage>
     <RepositoryUrl>https://github.com/Doprez/Doprez.Stride.AI</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Doprez/Doprez.Stride.AI</PackageProjectUrl>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Description>AI libraries to be used within Stride games</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>Stride3d;Game Engine;Stride;GOAP;AI;NPC;Game</PackageTags>
