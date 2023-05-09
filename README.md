@@ -180,3 +180,7 @@ public class IdleState : FSMState
 	
 }
 ```
+
+## GOAP example
+
+TBD
