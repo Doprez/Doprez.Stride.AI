@@ -9,13 +9,15 @@ AI libraries to be used within [Stride3d](https://www.stride3d.net/) games
 
 ### We can start by inheriting from the FSM and implementing the base methods
 ```
-using Doprez.Stride.AI.FSMs;
+using Doprez.Stride.AI.FiniteStateMachine;
 
-public class BasicEnemyFSM : FSM
+public class BasicEnemyFSM : SyncScript
 {
-	public override void UpdateFSM()
+	public FSM FiniteStateMachine { get; set; }
+
+	public override void Update()
 	{
-		//You can add triggers here to cancel/change the current running state
+		FiniteStateMachine.ExecuteState();
 	}
 }
 ```
@@ -43,7 +45,7 @@ public class IdleState : FSMState
 		// deactivate needed events or variables when this state is finished
 	}
 
-	public override void UpdateState()
+	public override void ExecuteState()
 	{
 		// this runs in the Update method of Stride per frame
 	}
@@ -58,7 +60,7 @@ you can add the  Doprez.Stride nuget package if some of the references are missi
 ### the FSM to initialize the state and allow per frame updates
 ```
 using System;
-using Doprez.Stride.AI.FSMs;
+using Doprez.Stride.AI.FiniteStateMachine;
 using Stride.Core;
 using Stride.Engine;
 using StridePlatformer.States;
@@ -96,7 +98,7 @@ public class BasicEnemyFSM : FSM
 		_idle.PlayerSeenTrigger = PlayerSeenTrigger;
 	}
 
-	public override void UpdateFSM()
+	public override void ExecuteState()
 	{
 		// add some logic here if needed but it can just be blank
 	}
@@ -107,7 +109,7 @@ public class BasicEnemyFSM : FSM
 ```
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using Doprez.Stride.AI.FSMs;
+using Doprez.Stride.AI.FiniteStateMachine;
 using Stride.Core.Collections;
 using Stride.Engine;
 using Stride.Physics;
@@ -147,7 +149,7 @@ public class IdleState : FSMState
 		PlayerSeenTrigger.Collisions.CollectionChanged -= CollisionsChanged;
 	}
 
-	public override void UpdateState()
+	public override void ExecuteState()
 	{
 		
 	}
