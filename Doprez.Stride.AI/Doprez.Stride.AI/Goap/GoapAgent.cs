@@ -31,6 +31,8 @@ public class GoapAgent : StartupScript
 			var actionState = await _currentAction.Step();
 			switch (actionState)
 			{
+				case ActionState.Running:
+					break;
 				case ActionState.Success:
 					UpdateStateWithCurrentAction();
 					MoveToNextAction();
@@ -44,8 +46,6 @@ public class GoapAgent : StartupScript
 				case ActionState.Finished:
 					MakeNewPlan();
 					break;
-				case ActionState.Running:
-					break;
 				default:
 					break;
 			}
@@ -58,6 +58,10 @@ public class GoapAgent : StartupScript
 		{
 			_actions.Dequeue();
 			_currentAction = _actions.TryPeek(out var newAction) ? newAction : null;
+		}
+		else
+		{
+			MakeNewPlan();
 		}
 	}
 

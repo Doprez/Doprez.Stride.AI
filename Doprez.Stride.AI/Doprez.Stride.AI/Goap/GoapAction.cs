@@ -7,7 +7,7 @@ namespace Doprez.Stride.AI.Goap;
 public abstract class GoapAction : StartupScript
 {
 	[DataMember(0)]
-	public string ActionName { get; set; } = string.Empty;
+	public virtual string ActionName { get; set; } = string.Empty;
 	[DataMember(1)]
 	public float Cost { get; set; } = 1f;
 
