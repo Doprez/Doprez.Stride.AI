@@ -2,8 +2,8 @@
 
 public enum ActionState
 {
-	Success,
 	Failure,
+	Success,
 	Running,
 	Impossible,
 	Finished,
