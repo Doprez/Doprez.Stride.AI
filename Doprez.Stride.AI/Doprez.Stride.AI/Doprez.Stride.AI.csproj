@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>    
 	<Title>Doprez.Stride.AI</Title>
@@ -10,10 +10,10 @@
     <NeutralLanguage>en-CA</NeutralLanguage>
     <RepositoryUrl>https://github.com/Doprez/Doprez.Stride.AI</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Doprez/Doprez.Stride.AI</PackageProjectUrl>
-    <Version>0.1.1</Version>
+    <Version>0.2.2</Version>
     <Description>AI libraries to be used within Stride games</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageTags>Stride3d;Game Engine;Stride;GOAP;AI;NPC;Game</PackageTags>
+    <PackageTags>Stride3d;Game Engine;Stride;GOAP;AI;NPC;Game;utlitiyi</PackageTags>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\LICENSE">
@@ -26,7 +26,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Doprez.Stride" Version="1.2.4" />
+    <PackageReference Include="Stride.CommunityToolkit" Version="1.0.0-preview.45" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
