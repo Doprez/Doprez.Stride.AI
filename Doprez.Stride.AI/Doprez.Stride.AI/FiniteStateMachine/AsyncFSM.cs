@@ -1,7 +1,7 @@
 ﻿using Stride.Core;
 using Stride.Engine;
 
-namespace Doprez.Stride.AI.FSMs;
+namespace Doprez.Stride.AI.FiniteStateMachine;
 
 /// <summary>
 /// Useless for the moment

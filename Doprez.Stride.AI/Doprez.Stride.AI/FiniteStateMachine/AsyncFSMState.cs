@@ -1,5 +1,5 @@
 ﻿
-namespace Doprez.Stride.AI.FSMs;
+namespace Doprez.Stride.AI.FiniteStateMachine;
 public abstract class AsyncFSMState
 {
 	public string Name { get; set; } = Guid.NewGuid().ToString();
